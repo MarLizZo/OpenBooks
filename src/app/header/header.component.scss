@@ -1,0 +1,20 @@
+nav {
+  img {
+    max-width: 42px;
+    cursor: pointer;
+  }
+  .name {
+    background: #eeeeee;
+    background: linear-gradient(to right, var(--bs-blue) 0%, var(--violet) 70%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: default;
+  }
+  .primary {
+    color: var(--bs-blue) !important;
+    &:hover {
+      color: var(--violet) !important;
+    }
+  }
+}
