@@ -1,15 +1,21 @@
 <header class="py-2 border-bottom border-primary">
     <div class="container">
-        <nav class="row">
-            <div class="col-6 d-flex align-items-center">
-                <a [routerLink]="''"><img src="assets/book.png"></a>
-                <p class="m-0 ms-3 fs-4 fw-medium name">Open Book</p>
+        <nav class="d-flex justify-content-between">
+            <div class="nav-common d-flex align-items-center">
+                <div class="d-flex align-items-center">
+                    <a [routerLink]="''"><img src="assets/book.png"></a>
+                    <p class="m-0 ms-3 fs-4 fw-medium name">Open Book</p>
+                </div>
             </div>
-            <div class="col-6 justify-content-end justify-content-md-start d-flex align-items-center">
+            <div class="d-flex align-items-center ms-3">
                 <a [routerLink]="''" class="text-decoration-none link-secondary mx-2"
                     [class.primary]="isHome()">Home</a>
-                <a [routerLink]="'/book'" class="d-none d-sm-block text-decoration-none link-secondary mx-2">Source
+                <a href="https://github.com/MarLizZo/OpenBooks"
+                    class="d-none d-sm-block text-decoration-none link-secondary mx-2">Source
                     code</a>
+            </div>
+            <div class="d-none d-md-flex nav-misc align-items-center">
+                <p class="m-0">Made with Angular!</p>
             </div>
         </nav>
     </div>
