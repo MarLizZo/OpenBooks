@@ -9,6 +9,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormComponent } from './components/form/form.component';
 import { CardComponent } from './components/card/card.component';
+import { LoaderComponent } from './components/loader/loader.component';
+import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, HomeComponent],
@@ -19,6 +21,8 @@ import { CardComponent } from './components/card/card.component';
     NgbModule,
     FormComponent,
     CardComponent,
+    LoaderComponent,
+    ErrorComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],

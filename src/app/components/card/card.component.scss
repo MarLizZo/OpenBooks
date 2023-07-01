@@ -1,7 +1,11 @@
 .card {
   transition: transform 0.5s;
+  color: var(--bs-gray-500);
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
+  }
+  *:not(button) {
+    cursor: default;
   }
 
   .secondary-info {

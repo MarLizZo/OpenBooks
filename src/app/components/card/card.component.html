@@ -1,16 +1,16 @@
-<div class="card bg-dark text-bg-dark shadow-lg">
+<div class="card bg-dark shadow-lg">
     <div class="d-flex p-2 w-100">
         <div class="px-2 w-auto">
-            <img [src]="book.volumeInfo!.imageLinks.thumbnail">
+            <img [src]="book.volumeInfo!.imageLinks.thumbnail" class="shadow">
         </div>
-        <div class="d-flex flex-column px-2 justify-content-between w-100">
+        <div class="d-flex flex-column ps-3 pe-1 justify-content-between w-100">
             <div class="main-info">
                 <h5 class="m-0">{{ book.volumeInfo!.title }}</h5>
                 <p class="m-0">By <span *ngFor="let a of book.volumeInfo!.authors">- {{ a }} -</span></p>
             </div>
             <div class="secondary-info my-1">
                 <p class="m-0"
-                    [textContent]="book.searchInfo ? book.searchInfo!.textSnippet : 'No description available for this book'">
+                    [innerHTML]="book.searchInfo ? book.searchInfo!.textSnippet : 'No description available for this book'">
                 </p>
             </div>
             <div class="btn-more">

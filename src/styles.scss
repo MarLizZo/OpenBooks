@@ -3,3 +3,17 @@
 :root {
   --violet: #7c48e3;
 }
+
+body {
+  &::-webkit-scrollbar {
+    width: 9px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--violet);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: var(--bs-dark);
+    border-radius: 10px;
+  }
+}
