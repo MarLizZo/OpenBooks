@@ -1,5 +1,8 @@
 <div class="container">
     <div class="form-container my-5">
-        <app-form></app-form>
+        <app-form (onSubmit)="doSearch($event)"></app-form>
+    </div>
+    <div *ngFor="let b of bookArr" class="my-2">
+        <p class="m-0">{{ b.volumeInfo.title }}</p>
     </div>
 </div>
