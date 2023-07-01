@@ -14,11 +14,11 @@ import { IFormData } from 'src/app/Interfaces/iform-data';
 export class FormComponent {
   data: IFormData = {
     query: '',
-    param: 'Everything',
     isItalian: false,
     isEnglish: false,
     isAllLang: true,
   };
+  btnText: string = 'All lang';
 
   @Output() onSubmit = new EventEmitter();
 
@@ -27,8 +27,22 @@ export class FormComponent {
     this.data.query = '';
   }
 
-  setSearchFilter(type: number) {
-    this.data.param =
-      type == 1 ? 'Everything' : type == 2 ? 'Book Title' : 'Author Name';
+  setSearchFilter(type: number): void {
+    if (type == 1) {
+      this.btnText = 'All lang';
+      this.data.isAllLang = true;
+      this.data.isEnglish = false;
+      this.data.isItalian = false;
+    } else if (type == 2) {
+      this.btnText = 'ENG Only';
+      this.data.isAllLang = false;
+      this.data.isEnglish = true;
+      this.data.isItalian = false;
+    } else {
+      this.btnText = 'ITA Only';
+      this.data.isAllLang = false;
+      this.data.isEnglish = false;
+      this.data.isItalian = true;
+    }
   }
 }

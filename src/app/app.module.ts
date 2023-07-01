@@ -8,6 +8,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormComponent } from './components/form/form.component';
+import { CardComponent } from './components/card/card.component';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, HomeComponent],
@@ -17,6 +18,7 @@ import { FormComponent } from './components/form/form.component';
     HttpClientModule,
     NgbModule,
     FormComponent,
+    CardComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],

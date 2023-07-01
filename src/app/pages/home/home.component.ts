@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { IBook } from 'src/app/Interfaces/ibook';
 import { IFormData } from 'src/app/Interfaces/iform-data';
 import { BookapiService } from 'src/app/Service/bookapi.service';
@@ -9,30 +11,38 @@ import { BookapiService } from 'src/app/Service/bookapi.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  bookArr: IBook[] = [];
-  constructor(private svc: BookapiService) {}
+  bookArr: Partial<IBook>[] = [];
+  bookSub!: Subscription;
+
+  constructor(private svc: BookapiService, private router: Router) {}
+
+  ngOnDestroy() {
+    if (this.bookSub) this.bookSub.unsubscribe();
+  }
 
   doSearch(data: IFormData) {
     this.bookArr = [];
-    let completeQuery: string = '';
 
-    if (data.query === '') {
-      completeQuery = 'The Expanse';
+    if (data.query == '') {
+      data.query = 'The expanse';
     }
 
-    if (!data.isAllLang) {
-      completeQuery += data.isEnglish
-        ? `&langRestrict="en"`
-        : `&langRestrict="it"`;
-    }
-
-    if (data.param == 'Everything') {
-      this.svc.getBooks(completeQuery).subscribe((data) => {
-        data.items.forEach((book) => {
+    this.bookSub = this.svc.getBooks(data.query).subscribe((res) => {
+      res.items.forEach((book) => {
+        if (data.isEnglish) {
+          if (book.volumeInfo.language == 'en') this.bookArr.push(book);
+        } else if (data.isItalian) {
+          if (book.volumeInfo.language == 'it') this.bookArr.push(book);
+        } else {
           this.bookArr.push(book);
-        });
-        console.log(data);
+        }
       });
-    }
+      console.log(res);
+    });
+  }
+
+  goToDetails(book: Partial<IBook>) {
+    this.router.navigate(['/book']);
+    console.log(book);
   }
 }

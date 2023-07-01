@@ -1,5 +1,6 @@
 form {
-  .searchContainer {
+  .searchContainer,
+  .checksContainer {
     width: 100%;
     @media screen and (min-width: 576px) {
       width: 75%;
@@ -9,18 +10,31 @@ form {
     }
   }
   .form-control {
-    border: 1px solid var(--violet) !important;
+    border: 1px solid var(--bs-gray-700) !important;
     border-right: 0px !important;
+    color: var(--bs-gray-500);
+
+    &:focus {
+      border: 1px solid var(--violet) !important;
+      border-right: 0px !important;
+    }
+
+    &:focus ~ div #dropdownSearch {
+      border: 1px solid var(--violet) !important;
+      border-left: 1px solid var(--bs-gray-700) !important;
+    }
   }
   #dropdownSearch {
-    border: 1px solid var(--violet) !important;
-    border-left: 0px !important;
+    border: 1px solid var(--bs-gray-700) !important;
   }
   ::placeholder {
     color: var(--bs-secondary);
   }
 
   div[ngbDropdownMenu] {
+    button {
+      transition: all 0.3s;
+    }
     button:hover {
       background-color: var(--bs-gray-700);
       color: white !important;
