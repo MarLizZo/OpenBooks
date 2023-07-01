@@ -1,6 +1,29 @@
-.form-control {
-  border: 1px solid var(--violet) !important;
-}
-::placeholder {
-  color: white;
+form {
+  .searchContainer {
+    width: 100%;
+    @media screen and (min-width: 576px) {
+      width: 75%;
+    }
+    @media screen and (min-width: 1200px) {
+      width: 50%;
+    }
+  }
+  .form-control {
+    border: 1px solid var(--violet) !important;
+    border-right: 0px !important;
+  }
+  #dropdownSearch {
+    border: 1px solid var(--violet) !important;
+    border-left: 0px !important;
+  }
+  ::placeholder {
+    color: var(--bs-secondary);
+  }
+
+  div[ngbDropdownMenu] {
+    button:hover {
+      background-color: var(--bs-gray-700);
+      color: white !important;
+    }
+  }
 }

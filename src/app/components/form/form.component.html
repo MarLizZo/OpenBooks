@@ -1,4 +1,19 @@
-<form class="d-flex flex-column align-items-center">
-    <input type="text" class="form-control bg-dark text-white mb-4 w-50" id="floatingInput" placeholder="The Expanse">
-    <button class="btn btn-outline-primary w-25 rounded-3">Search</button>
+<form (submit)="formSubmit()" class="d-flex flex-column align-items-center">
+    <div class="d-flex searchContainer">
+        <input type="text" [(ngModel)]="searchQuery" name="searchQuery"
+            class="form-control bg-dark text-white mb-4 rounded-end-0 shadow-none" id="floatingInput"
+            placeholder="The Expanse">
+        <div ngbDropdown class="d-inline-block">
+            <button type="button" class="btn btn-dark text-secondary rounded-start-0" id="dropdownSearch"
+                ngbDropdownToggle>
+                {{ btnSearchParam }}
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownSearch" class="bg-dark border-1 border-primary">
+                <button ngbDropdownItem class="text-secondary" (click)="setSearchFilter(1)">Everything</button>
+                <button ngbDropdownItem class="text-secondary" (click)="setSearchFilter(2)">Book Title</button>
+                <button ngbDropdownItem class="text-secondary" (click)="setSearchFilter(3)">Author Name</button>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-outline-primary w-25 rounded-3">Search</button>
 </form>
