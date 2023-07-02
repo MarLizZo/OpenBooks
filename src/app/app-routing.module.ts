@@ -8,7 +8,7 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'book',
+    path: 'book/:id',
     loadChildren: () =>
       import('./pages/book/book.module').then((m) => m.BookModule),
   },

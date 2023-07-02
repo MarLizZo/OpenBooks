@@ -6,7 +6,7 @@
     </div>
     <div *ngIf="!isLoading && !isWaiting" class="container-fluid container-md books-container">
         <div *ngFor="let b of bookArr" class="my-3">
-            <app-card [book]="b" (onClick)="goToDetails(b)"></app-card>
+            <app-card [book]="b" [routerLink]="'/book/' + b.id"></app-card>
         </div>
         <div *ngIf="bookArr.length">
             <div class="back-to-top" (click)="toTop()">

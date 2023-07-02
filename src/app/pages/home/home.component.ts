@@ -33,6 +33,7 @@ export class HomeComponent {
     if (envArr.length) {
       console.log(envArr.length);
       this.bookArr = envArr;
+      this.isFirstReqDone = true;
     } else {
     }
   }
@@ -116,10 +117,6 @@ export class HomeComponent {
         })
       )
       .subscribe();
-  }
-
-  goToDetails(book: Partial<IBook>) {
-    this.router.navigate(['/book']);
   }
 
   toTop() {

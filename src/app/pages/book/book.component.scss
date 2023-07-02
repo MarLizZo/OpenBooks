@@ -1,0 +1,14 @@
+.card {
+  width: 90%;
+  height: max-content;
+  color: var(--bs-gray-500);
+
+  img {
+    max-width: 130px;
+    max-height: 198px;
+  }
+
+  *:not(button) {
+    cursor: default;
+  }
+}
