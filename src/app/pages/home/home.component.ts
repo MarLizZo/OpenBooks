@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, catchError, tap } from 'rxjs';
 import { IBook } from 'src/app/Interfaces/ibook';
@@ -13,13 +13,18 @@ import { BookapiService } from 'src/app/Service/bookapi.service';
 export class HomeComponent {
   bookArr: Partial<IBook>[] = [];
   bookSub!: Subscription;
-  previousRequest!: IFormData;
+  private previousRequest: any;
   totalItems!: number;
   indexCounter: number = 0;
   isLoading: boolean = false;
   isWaiting: boolean = false;
+  isLoadingMore: boolean = false;
+  isFirstReqDone: boolean = false;
   isError: boolean = false;
+  isSearchError: boolean = false;
   isLimitReached: boolean = false;
+
+  @ViewChild('loadMore') btnLoadMore!: ElementRef;
 
   constructor(private svc: BookapiService, private router: Router) {}
 
@@ -34,50 +39,62 @@ export class HomeComponent {
     }, 2000);
   }
 
-  doSearch(data: IFormData) {
-    if (this.indexCounter == 0) {
+  doSearch(data: IFormData, firstReq: boolean) {
+    if (firstReq) {
       this.bookArr = [];
       this.previousRequest = data;
       this.isLimitReached = false;
       this.totalItems = 0;
+      this.isError = false;
+      this.isSearchError = false;
+      this.indexCounter = 0;
+      this.isFirstReqDone = false;
+      this.isLoading = true;
+      this.wait();
+    }
+    let completeQuery = data.query;
+
+    if (completeQuery == '') {
+      completeQuery = 'The expanse';
     }
 
-    this.isLoading = true;
-    this.wait();
-
-    if (data.query == '') {
-      data.query = 'The expanse';
-    }
-
-    if (this.indexCounter != 0) {
-      let startIndex = 40 * this.indexCounter;
+    if (!firstReq) {
+      this.indexCounter++;
+      let startIndex = 40 * this.indexCounter + 1;
       if (startIndex >= this.totalItems) {
         this.isLimitReached = true;
         return;
       }
-      data.query += `&startIndex=${startIndex}`;
+      completeQuery += `&startIndex=${startIndex}`;
     }
 
     this.bookSub = this.svc
-      .getBooks(data.query)
+      .getBooks(completeQuery)
       .pipe(
         tap((res) => {
           this.totalItems = res.totalItems;
-          res.items.forEach((book) => {
-            if (data.isEnglish) {
-              if (book.volumeInfo.language == 'en') this.bookArr.push(book);
-            } else if (data.isItalian) {
-              if (book.volumeInfo.language == 'it') this.bookArr.push(book);
-            } else {
-              this.bookArr.push(book);
-            }
-          });
+          if (this.totalItems) {
+            res.items.forEach((book) => {
+              if (data.isEnglish) {
+                if (book.volumeInfo.language == 'en') this.bookArr.push(book);
+              } else if (data.isItalian) {
+                if (book.volumeInfo.language == 'it') this.bookArr.push(book);
+              } else {
+                this.bookArr.push(book);
+              }
+            });
+            this.isFirstReqDone = true;
+          } else {
+            this.isSearchError = true;
+          }
           this.isLoading = false;
+          if (!firstReq) this.isLoadingMore = false;
         }),
         catchError((error) => {
           this.isError = true;
           this.isLoading = false;
           this.isWaiting = false;
+          this.isSearchError = false;
           throw error;
         })
       )
@@ -90,5 +107,19 @@ export class HomeComponent {
 
   toTop() {
     window.scrollTo(0, 0);
+  }
+
+  toBottom() {
+    window.scrollTo(0, document.querySelector('body')?.scrollHeight!);
+  }
+
+  resetErr() {
+    this.isError = false;
+    this.isSearchError = false;
+  }
+
+  loadMoreContent() {
+    this.isLoadingMore = true;
+    this.doSearch(this.previousRequest, false);
   }
 }

@@ -1,0 +1,31 @@
+.err-container {
+  background-color: #dc35462b;
+
+  p {
+    color: red;
+  }
+}
+
+.warning-container {
+  background-color: #ffc1072b;
+
+  p {
+    color: yellow;
+  }
+}
+
+.err-container svg:last-child,
+.warning-container svg:last-child {
+  cursor: pointer;
+}
+
+.err-container svg:first-child,
+.warning-container svg:first-child {
+  animation: scale 1s linear infinite;
+}
+
+@keyframes scale {
+  50% {
+    transform: scale(1.2);
+  }
+}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,8 +6,15 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './error.component.html',
-  styleUrls: ['./error.component.scss']
+  styleUrls: ['./error.component.scss'],
 })
 export class ErrorComponent {
+  @Input() genericError!: boolean;
+  @Input() searchError!: boolean;
 
+  @Output() onDismiss = new EventEmitter();
+
+  dismiss(): void {
+    this.onDismiss.emit();
+  }
 }

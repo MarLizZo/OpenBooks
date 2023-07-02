@@ -1,23 +1,45 @@
-<div class="container">
-    <div class="form-container my-5">
-        <app-form (onSubmit)="doSearch($event)"></app-form>
+<div class="h-100 d-flex flex-column py-4">
+    <div class="container">
+        <div class="form-container mb-4">
+            <app-form (onSubmit)="doSearch($event, true)"></app-form>
+        </div>
     </div>
-</div>
-<div *ngIf="!isLoading && !isWaiting" class="container-fluid container-md">
-    <div *ngFor="let b of bookArr" class="my-3">
-        <app-card [book]="b" (onClick)="goToDetails(b)"></app-card>
+    <div *ngIf="!isLoading && !isWaiting" class="container-fluid container-md books-container">
+        <div *ngFor="let b of bookArr" class="my-3">
+            <app-card [book]="b" (onClick)="goToDetails(b)"></app-card>
+        </div>
+        <div *ngIf="bookArr.length">
+            <div class="back-to-top" (click)="toTop()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                    class="bi bi-arrow-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
+                </svg>
+            </div>
+            <div class="back-to-bottom" (click)="toBottom()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                    class="bi bi-arrow-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
+                </svg>
+            </div>
+        </div>
+        <div *ngIf="isFirstReqDone && !isWaiting && !isLoading" class="d-flex justify-content-center">
+            <button #loadMore class="btn btn-outline-primary w-50 my-3 d-flex justify-content-center align-items-center"
+                (click)="loadMoreContent()">
+                Load More
+                <div *ngIf="isLoadingMore" class="spinner ms-3">
+                </div>
+            </button>
+            <p *ngIf="isLimitReached" class="m-0 mt-3 fs-5 fw-medium">Limit Reached, no more content to load!</p>
+        </div>
     </div>
-</div>
-<div *ngIf="isLoading || isWaiting" class="d-flex align-items-center justify-content-center">
-    <app-loader></app-loader>
-</div>
-<div *ngIf="isError">
-    <app-error></app-error>
-</div>
-<div *ngIf="bookArr.length && !isLoading && !isWaiting" class="back-to-top" (click)="toTop()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-up"
-        viewBox="0 0 16 16">
-        <path fill-rule="evenodd"
-            d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
-    </svg>
+    <div *ngIf="isLoading || isWaiting" class="d-flex align-items-center justify-content-center flex-grow-1">
+        <app-loader></app-loader>
+    </div>
+    <div *ngIf="isError || isSearchError && !isWaiting"
+        class="d-flex align-items-center justify-content-center flex-grow-1">
+        <app-error class="w-100 d-flex justify-content-center" [genericError]="isError" [searchError]="isSearchError"
+            (onDismiss)="resetErr()"></app-error>
+    </div>
 </div>

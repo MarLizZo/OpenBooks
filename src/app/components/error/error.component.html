@@ -1,1 +1,41 @@
-<p>error works!</p>
+<div *ngIf="genericError"
+    class="d-flex justify-content-between align-items-center err-container border border-1 border-danger w-75 p-3 rounded-2">
+    <div class="d-flex">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="red" class="bi bi-x-circle"
+            viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            <path
+                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+        </svg>
+
+        <p class="m-0 ms-3"><span class="fw-bold">Oh no!</span> Something gone wrong.. Check your
+            connection and try
+            again!</p>
+    </div>
+
+    <svg (click)="dismiss()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="red" class="bi bi-x"
+        viewBox="0 0 16 16">
+        <path
+            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+    </svg>
+</div>
+
+<div *ngIf="searchError"
+    class="d-flex justify-content-between align-items-center warning-container border border-1 border-warning w-75 p-3 rounded-2">
+    <div class="d-flex">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="yellow" class="bi bi-exclamation-circle"
+            viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            <path
+                d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+        </svg>
+
+        <p class="m-0 ms-3"><span class="fw-bold">Oh no!</span> I can't find any book or author with the given name.</p>
+    </div>
+
+    <svg (click)="dismiss()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="yellow" class="bi bi-x"
+        viewBox="0 0 16 16">
+        <path
+            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+    </svg>
+</div>

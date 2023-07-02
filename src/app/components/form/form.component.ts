@@ -12,7 +12,7 @@ import { IFormData } from 'src/app/Interfaces/iform-data';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent {
-  data: IFormData = {
+  formData: IFormData = {
     query: '',
     isItalian: false,
     isEnglish: false,
@@ -23,26 +23,32 @@ export class FormComponent {
   @Output() onSubmit = new EventEmitter();
 
   formSubmit(): void {
-    this.onSubmit.emit(this.data);
-    this.data.query = '';
+    const outObj: IFormData = {
+      query: this.formData.query,
+      isItalian: this.formData.isItalian ? true : false,
+      isEnglish: this.formData.isEnglish ? true : false,
+      isAllLang: this.formData.isAllLang ? true : false,
+    };
+    this.onSubmit.emit(outObj);
+    this.formData.query = '';
   }
 
   setSearchFilter(type: number): void {
     if (type == 1) {
       this.btnText = 'All lang';
-      this.data.isAllLang = true;
-      this.data.isEnglish = false;
-      this.data.isItalian = false;
+      this.formData.isAllLang = true;
+      this.formData.isEnglish = false;
+      this.formData.isItalian = false;
     } else if (type == 2) {
       this.btnText = 'ENG Only';
-      this.data.isAllLang = false;
-      this.data.isEnglish = true;
-      this.data.isItalian = false;
+      this.formData.isAllLang = false;
+      this.formData.isEnglish = true;
+      this.formData.isItalian = false;
     } else {
       this.btnText = 'ITA Only';
-      this.data.isAllLang = false;
-      this.data.isEnglish = false;
-      this.data.isItalian = true;
+      this.formData.isAllLang = false;
+      this.formData.isEnglish = false;
+      this.formData.isItalian = true;
     }
   }
 }
