@@ -4,6 +4,7 @@ import { Subscription, catchError, tap } from 'rxjs';
 import { IBook } from 'src/app/Interfaces/ibook';
 import { IFormData } from 'src/app/Interfaces/iform-data';
 import { BookapiService } from 'src/app/Service/bookapi.service';
+import { envArr } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +29,14 @@ export class HomeComponent {
 
   constructor(private svc: BookapiService, private router: Router) {}
 
+  ngOnInit() {
+    if (envArr.length) {
+      console.log(envArr.length);
+      this.bookArr = envArr;
+    } else {
+    }
+  }
+
   ngOnDestroy() {
     if (this.bookSub) this.bookSub.unsubscribe();
   }
@@ -42,6 +51,7 @@ export class HomeComponent {
   doSearch(data: IFormData, firstReq: boolean) {
     if (firstReq) {
       this.bookArr = [];
+      envArr.splice(0, envArr.length);
       this.previousRequest = data;
       this.isLimitReached = false;
       this.totalItems = 0;
@@ -76,11 +86,18 @@ export class HomeComponent {
           if (this.totalItems) {
             res.items.forEach((book) => {
               if (data.isEnglish) {
-                if (book.volumeInfo.language == 'en') this.bookArr.push(book);
+                if (book.volumeInfo.language == 'en') {
+                  this.bookArr.push(book);
+                  envArr.push(book);
+                }
               } else if (data.isItalian) {
-                if (book.volumeInfo.language == 'it') this.bookArr.push(book);
+                if (book.volumeInfo.language == 'it') {
+                  this.bookArr.push(book);
+                  envArr.push(book);
+                }
               } else {
                 this.bookArr.push(book);
+                envArr.push(book);
               }
             });
             this.isFirstReqDone = true;
