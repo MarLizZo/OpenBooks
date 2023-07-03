@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { Subscription, catchError, tap } from 'rxjs';
 import { IBook } from 'src/app/Interfaces/ibook';
 import { IFormData } from 'src/app/Interfaces/iform-data';
+import { IStorageData } from 'src/app/Interfaces/istorage-data';
 import { BookapiService } from 'src/app/Service/bookapi.service';
-import { envArr } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +20,7 @@ export class HomeComponent {
   isLoading: boolean = false;
   isWaiting: boolean = false;
   isLoadingMore: boolean = false;
+  isLoadingMoreError: boolean = false;
   isFirstReqDone: boolean = false;
   isError: boolean = false;
   isSearchError: boolean = false;
@@ -30,12 +31,7 @@ export class HomeComponent {
   constructor(private svc: BookapiService, private router: Router) {}
 
   ngOnInit() {
-    if (envArr.length) {
-      console.log(envArr.length);
-      this.bookArr = envArr;
-      this.isFirstReqDone = true;
-    } else {
-    }
+    this.getLocalData();
   }
 
   ngOnDestroy() {
@@ -49,10 +45,28 @@ export class HomeComponent {
     }, 2000);
   }
 
+  getLocalData(): void {
+    let data: IStorageData | null = null;
+    if (localStorage.getItem('booksData')) {
+      data = JSON.parse(localStorage.getItem('booksData')!);
+    }
+    if (data) {
+      this.wait();
+      this.isFirstReqDone = true;
+      this.bookArr = data.booksArray;
+      this.totalItems = data.itemsCount;
+      this.previousRequest = data.prevRequest;
+      this.indexCounter = data.loadsCounter;
+    }
+  }
+
+  saveLocalData(data: IStorageData) {
+    localStorage.setItem('booksData', JSON.stringify(data));
+  }
+
   doSearch(data: IFormData, firstReq: boolean) {
     if (firstReq) {
       this.bookArr = [];
-      envArr.splice(0, envArr.length);
       this.previousRequest = data;
       this.isLimitReached = false;
       this.totalItems = 0;
@@ -70,7 +84,10 @@ export class HomeComponent {
     }
 
     if (!firstReq) {
-      this.indexCounter++;
+      if (!this.isLoadingMoreError) {
+        this.indexCounter++;
+      }
+      this.isLoadingMoreError = false;
       let startIndex = 40 * this.indexCounter + 1;
       if (startIndex >= this.totalItems) {
         this.isLimitReached = true;
@@ -89,19 +106,23 @@ export class HomeComponent {
               if (data.isEnglish) {
                 if (book.volumeInfo.language == 'en') {
                   this.bookArr.push(book);
-                  envArr.push(book);
                 }
               } else if (data.isItalian) {
                 if (book.volumeInfo.language == 'it') {
                   this.bookArr.push(book);
-                  envArr.push(book);
                 }
               } else {
                 this.bookArr.push(book);
-                envArr.push(book);
               }
             });
             this.isFirstReqDone = true;
+            let objToSave: IStorageData = {
+              booksArray: this.bookArr,
+              prevRequest: this.previousRequest,
+              loadsCounter: this.indexCounter,
+              itemsCount: this.totalItems,
+            };
+            this.saveLocalData(objToSave);
           } else {
             this.isSearchError = true;
           }
@@ -109,7 +130,12 @@ export class HomeComponent {
           if (!firstReq) this.isLoadingMore = false;
         }),
         catchError((error) => {
-          this.isError = true;
+          if (!firstReq) {
+            this.isLoadingMoreError = true;
+            this.isLoadingMore = false;
+          } else {
+            this.isError = true;
+          }
           this.isLoading = false;
           this.isWaiting = false;
           this.isSearchError = false;
@@ -135,5 +161,9 @@ export class HomeComponent {
   loadMoreContent() {
     this.isLoadingMore = true;
     this.doSearch(this.previousRequest, false);
+  }
+
+  goToDetail(book: Partial<IBook>) {
+    this.router.navigate([`/book/${book.id}`]);
   }
 }

@@ -2,7 +2,8 @@
     <div *ngIf="isLoading || isWaiting" class="d-flex align-items-center justify-content-center flex-grow-1">
         <app-loader></app-loader>
     </div>
-    <div *ngIf="!isLoading && !isWaiting" class="d-flex flex-grow-1 justify-content-center align-items-center py-4">
+    <div *ngIf="!isLoading && !isWaiting && !isErrorCheck"
+        class="d-flex flex-grow-1 justify-content-center align-items-center py-4">
         <div class="card bg-dark p-4 shadow-lg">
             <div class="d-flex">
                 <img
@@ -26,13 +27,26 @@
                     </p>
                 </div>
             </div>
-            <div class="mt-3"
-                [innerHTML]="book.volumeInfo!.description ? book.volumeInfo!.description : 'No description available.. This is bad...'">
+            <div *ngIf="book.volumeInfo!.categories" class="mt-3">
+                <p class="m-0"><span class="d-block" *ngFor="let c of book.volumeInfo!.categories">•
+                        {{ c }}</span></p>
             </div>
-            <div *ngIf="book.volumeInfo!.previewLink" class="mt-3 text-center">
-                <a href="{{ book.volumeInfo!.previewLink }}"><button class="btn btn-outline-primary w-25"
+            <div class="mt-4">
+                <p class="descr-heading fs-4 fw-medium">Book Description</p>
+                <div
+                    [innerHTML]="book.volumeInfo!.description ? book.volumeInfo!.description : 'No description available.. This is bad...'">
+                </div>
+            </div>
+            <div *ngIf="book.volumeInfo!.previewLink" class="mt-4 text-center">
+                <a [href]="book.volumeInfo!.previewLink" target="_blank"><button class="btn btn-outline-primary w-25"
                         [textContent]="'Get a Preview'"></button></a>
             </div>
         </div>
+    </div>
+    <div *ngIf="isError || isErrorCheck && !isLoading && !isWaiting"
+        class="d-flex flex-column align-items-center justify-content-center flex-grow-1">
+        <app-error *ngIf="isError" class="d-flex justify-content-center w-100" [genericError]="true"
+            [searchError]="false" (onDismiss)="dismiss()"></app-error>
+        <button class="btn btn-outline-primary w-25 mt-5" (click)="getBookData()">Try Again</button>
     </div>
 </div>

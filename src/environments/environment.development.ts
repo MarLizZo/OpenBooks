@@ -1,3 +1,1 @@
-import { IBook } from 'src/app/Interfaces/ibook';
-
-export let envArr: IBook[] = [];
+//not using env as of now

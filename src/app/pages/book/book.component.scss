@@ -11,4 +11,12 @@
   *:not(button) {
     cursor: default;
   }
+
+  .descr-heading {
+    background: #eeeeee;
+    background: linear-gradient(to right, var(--bs-blue) 0%, var(--violet) 70%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }

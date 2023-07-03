@@ -6,7 +6,7 @@
     </div>
     <div *ngIf="!isLoading && !isWaiting" class="container-fluid container-md books-container">
         <div *ngFor="let b of bookArr" class="my-3">
-            <app-card [book]="b" [routerLink]="'/book/' + b.id"></app-card>
+            <app-card [book]="b" (onClick)="goToDetail(b)"></app-card>
         </div>
         <div *ngIf="bookArr.length">
             <div class="back-to-top" (click)="toTop()">
@@ -24,14 +24,17 @@
                 </svg>
             </div>
         </div>
-        <div *ngIf="isFirstReqDone && !isWaiting && !isLoading" class="d-flex justify-content-center">
+        <div *ngIf="isFirstReqDone && !isWaiting && !isLoading" class="d-flex flex-column align-items-center">
             <button #loadMore class="btn btn-outline-primary w-50 my-3 d-flex justify-content-center align-items-center"
                 (click)="loadMoreContent()">
                 Load More
                 <div *ngIf="isLoadingMore" class="spinner ms-3">
                 </div>
             </button>
-            <p *ngIf="isLimitReached" class="m-0 mt-3 fs-5 fw-medium">Limit Reached, no more content to load!</p>
+            <p *ngIf="isLoadingMoreError" class="m-0 mt-2 fs-5 fw-medium text-danger">Error loading content, please
+                retry..</p>
+            <p *ngIf="isLimitReached" class="m-0 mt-2 fs-5 fw-medium text-danger">Limit Reached, no more content to
+                load!</p>
         </div>
     </div>
     <div *ngIf="isLoading || isWaiting" class="d-flex align-items-center justify-content-center flex-grow-1">

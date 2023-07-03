@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, tap } from 'rxjs';
 import { IBook } from 'src/app/Interfaces/ibook';
 import { BookapiService } from 'src/app/Service/bookapi.service';
 
@@ -12,6 +12,8 @@ import { BookapiService } from 'src/app/Service/bookapi.service';
 export class BookComponent {
   isLoading: boolean = true;
   isWaiting: boolean = true;
+  isError: boolean = false;
+  isErrorCheck: boolean = false;
   paramSub!: Subscription;
   bookSub!: Subscription;
   book!: Partial<IBook>;
@@ -19,13 +21,34 @@ export class BookComponent {
   constructor(private svc: BookapiService, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.getBookData();
+  }
+
+  getBookData(): void {
+    this.isWaiting = true;
+    this.isLoading = true;
+    this.isError = false;
+    this.isErrorCheck = false;
     this.wait();
     this.paramSub = this.route.params.subscribe((param: any) => {
-      this.paramSub = this.svc.getSingleBook(param.id).subscribe((res) => {
-        this.book = res;
-        console.log(res);
-        this.isLoading = false;
-      });
+      this.paramSub = this.svc
+        .getSingleBook(param.id)
+        .pipe(
+          tap((res) => {
+            this.book = res;
+            this.isError = false;
+            this.isErrorCheck = false;
+            this.isLoading = false;
+          }),
+          catchError((error) => {
+            this.isLoading = false;
+            this.isWaiting = false;
+            this.isError = true;
+            this.isErrorCheck = true;
+            throw Error;
+          })
+        )
+        .subscribe();
     });
   }
 
@@ -33,5 +56,9 @@ export class BookComponent {
     setTimeout(() => {
       this.isWaiting = false;
     }, 1500);
+  }
+
+  dismiss() {
+    this.isError = false;
   }
 }
