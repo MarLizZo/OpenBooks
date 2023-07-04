@@ -13,6 +13,28 @@
     max-height: 198px;
   }
 
+  .main-info {
+    h5 {
+      @media screen and (max-width: 576px) {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+      }
+    }
+
+    p:first-of-type {
+      @media screen and (max-width: 576px) {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
   .secondary-info {
     overflow: hidden;
     display: -webkit-box;

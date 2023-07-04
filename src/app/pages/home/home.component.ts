@@ -14,7 +14,7 @@ import { BookapiService } from 'src/app/Service/bookapi.service';
 export class HomeComponent {
   bookArr: Partial<IBook>[] = [];
   bookSub!: Subscription;
-  private previousRequest: any;
+  private previousRequest!: IFormData;
   totalItems!: number;
   indexCounter: number = 0;
   isLoading: boolean = false;
@@ -165,5 +165,13 @@ export class HomeComponent {
 
   goToDetail(book: Partial<IBook>) {
     this.router.navigate([`/book/${book.id}`]);
+  }
+
+  clearResults() {
+    this.bookArr = [];
+    this.isFirstReqDone = false;
+    this.indexCounter = 0;
+    this.isLimitReached = false;
+    this.totalItems = 0;
   }
 }

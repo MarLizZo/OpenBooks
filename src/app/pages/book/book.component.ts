@@ -24,6 +24,11 @@ export class BookComponent {
     this.getBookData();
   }
 
+  ngOnDestroy() {
+    if (this.paramSub) this.paramSub.unsubscribe();
+    if (this.bookSub) this.bookSub.unsubscribe();
+  }
+
   getBookData(): void {
     this.isWaiting = true;
     this.isLoading = true;
@@ -31,11 +36,16 @@ export class BookComponent {
     this.isErrorCheck = false;
     this.wait();
     this.paramSub = this.route.params.subscribe((param: any) => {
-      this.paramSub = this.svc
+      this.bookSub = this.svc
         .getSingleBook(param.id)
         .pipe(
           tap((res) => {
             this.book = res;
+            if (!isNaN(Date.parse(this.book.volumeInfo!.publishedDate))) {
+              this.book.volumeInfo!.publishedDate = new Date(
+                this.book.volumeInfo!.publishedDate
+              ).toLocaleDateString();
+            }
             this.isError = false;
             this.isErrorCheck = false;
             this.isLoading = false;

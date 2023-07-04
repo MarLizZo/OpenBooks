@@ -18,6 +18,11 @@
   &:hover {
     background-color: var(--bs-gray-800);
   }
+
+  @media screen and (max-width: 576px) {
+    height: 48px;
+    width: 48px;
+  }
 }
 
 .back-to-top {
@@ -26,10 +31,29 @@
 
 .back-to-bottom {
   bottom: 20%;
+
+  @media screen and (max-width: 576px) {
+    bottom: 18%;
+  }
 }
 
 .books-container {
-  button {
+  button.clear-btn {
+    width: 40%;
+    color: var(--violet);
+    border: 1px solid var(--violet);
+
+    &:hover,
+    &:active {
+      color: white;
+      background-color: var(--violet);
+    }
+
+    @media screen and (min-width: 768px) {
+      width: 30%;
+    }
+  }
+  button:not(.clear-btn) {
     .spinner {
       width: 20px;
       height: 20px;
@@ -58,4 +82,30 @@
 
 app-card {
   height: 230px;
+}
+
+.form-disabled {
+  pointer-events: none;
+}
+
+.project-info {
+  cursor: default;
+  h1 {
+    background: #eeeeee;
+    background: linear-gradient(to right, var(--violet) 0%, var(--bs-blue) 50%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    border-left: 5px solid var(--bs-blue);
+  }
+
+  .text-parag {
+    color: var(--bs-gray-500);
+
+    .code-tag {
+      background-color: var(--bs-gray-700);
+      color: var(--bs-gray-400);
+    }
+  }
 }

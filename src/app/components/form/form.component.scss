@@ -1,4 +1,11 @@
 form {
+  .c-width {
+    width: 30%;
+
+    @media screen and (min-width: 768px) {
+      width: 20%;
+    }
+  }
   .searchContainer,
   .checksContainer {
     width: 100%;
