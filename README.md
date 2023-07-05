@@ -4,6 +4,8 @@ Open Source Project sample built with Angular.
 
 In this project you will find many commented lines of code. I've commented also some of the typical features of Angular trying to explain what they do. You need of course to know at least the basics in order to comprehend the components and how they interact.
 
+**LIVE DEMO**: [Open Book Live](https://openbook-5b313.web.app/)
+
 <hr>
 
 ### Open Book explained
