@@ -1,27 +1,35 @@
-# OpenBooks
+# Open Books
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.3.
+Open Source Project sample built with Angular.
 
-## Development server
+In this project you will find many commented lines of code. I've commented also some of the typical features of Angular trying to explain what they do. You need of course to know at least the basics in order to comprehend the components and how they interact.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+<hr>
 
-## Code scaffolding
+### Open Book explained
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+I've created this project to practise mainly. But it could be useful to some people out there and that's why it is here available for you all.
+A very simple project to retrieve informations about any book.
 
-## Build
+We'll be using the free Google Books API to get a list of books by entering a name and optionally the desired language (All - ITA - ENG are available as of now).
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+#### Main Point of Interest
 
-## Running unit tests
+1. _app.components.ts_
+   - The HostListener
+2. _app-routing.module.ts_
+   - The lazy-loaded module management with a parameter passed to the route
+3. _pages/_
+   - There are many things inside this folder. Input/Output features, Subscription to the Observables from the Service (the API requests), HTML *ngIf and *ngFor and so on..
+4. _components/_
+   - Standalone components. Parts of the pages.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+<hr>
 
-## Running end-to-end tests
+### Using the Source code
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+> Assuming that you have already VSCode/or similar and the Angular CLI installed ..
 
-## Further help
+To get your copy working and running you need to install the dependencies with the command **_npm i_**
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Run locally your project by entering the command **_ng s -o_** on the root folder of the project.
