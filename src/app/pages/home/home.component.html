@@ -3,6 +3,8 @@
         <div class="form-container mb-4" [class.form-disabled]="isWaiting || isLoading">
             <app-form (onSubmit)="doSearch($event, true)"></app-form>
         </div>
+        <!-- CSS class form-disabled is applied to the entire div element when isWaiting or isLoading == true -->
+        <!-- onSubmit is the output event emitted by the form component. When it is triggered, then we call the doSearch function with the boolean flag as true. This way we reset eventual previous information and store the new ones -->
     </div>
     <div *ngIf="!isLoading && !isWaiting && !bookArr.length && !isError && !isSearchError"
         class="container-fluid flex-grow-1 project-info">
@@ -19,13 +21,16 @@
                 locally this project you'll need to run the <span class="code-tag px-1 pb-1 rounded-2">npm i</span>
                 command to get all the dependencies.</p>
         </div>
+        <!-- This element is displayed only when there is no action pending and the length of the array of books is 0 -->
     </div>
     <div *ngIf="!isLoading && !isWaiting && bookArr.length" class="container-fluid container-md books-container">
+        <!-- This container will be displayed when we have an array with books and the loading animation is turned off -->
         <div class="d-flex justify-content-center mt-1 mb-5">
             <button class="btn rounded-3 clear-btn" (click)="clearResults()">Clear Results</button>
         </div>
         <div *ngFor="let b of bookArr" class="my-3">
             <app-card [book]="b" (onClick)="goToDetail(b)" class="d-block"></app-card>
+            <!-- Cicle the array. We call the card component for each book and we pass the book itself to it. Then the card component will use this object to build the layout. -->
         </div>
         <div class="back-to-top" (click)="toTop()">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-up"
@@ -33,6 +38,7 @@
                 <path fill-rule="evenodd"
                     d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
             </svg>
+            <!-- Simple quick scroll to top button -->
         </div>
         <div class="back-to-bottom" (click)="toBottom()">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-down"
@@ -40,8 +46,10 @@
                 <path fill-rule="evenodd"
                     d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
             </svg>
+            <!-- Simple quick scroll to bottom button -->
         </div>
         <div *ngIf="isFirstReqDone && !isWaiting && !isLoading" class="d-flex flex-column align-items-center">
+            <!-- This container will show the button capable to call the Search function to load more books. We want to display this button only when a first request submitted by the form has been sent. The button will use the informations stored to send another request with the same parameters, but with the startIndex additional parameter as seen inside the function -->
             <button #loadMore class="btn btn-outline-primary w-50 my-3 d-flex justify-content-center align-items-center"
                 (click)="loadMoreContent()">
                 Load More
@@ -52,14 +60,17 @@
                 retry..</p>
             <p *ngIf="isLimitReached" class="m-0 mt-2 fs-5 fw-medium text-danger">Limit Reached, no more content to
                 load!</p>
+            <!-- Just a minimal information for the users indicating if there are errors with the request (Internet connection for example) or there are no more books to load -->
         </div>
     </div>
     <div *ngIf="isLoading || isWaiting" class="d-flex align-items-center justify-content-center flex-grow-1">
         <app-loader></app-loader>
+        <!-- Loading animation component -->
     </div>
     <div *ngIf="isError || isSearchError && !isWaiting"
         class="d-flex align-items-center justify-content-center flex-grow-1">
         <app-error class="w-100 d-flex justify-content-center" [genericError]="isError" [searchError]="isSearchError"
             (onDismiss)="resetErr()"></app-error>
+        <!-- Component with a bootstrap-like alert. The component accepts two Inputs: genericError and searchError. genericError will display a message saying that there are errors with the request submitted by the form. searchError will be displayed when there are no books found with the submitted parameters by the form -->
     </div>
 </div>

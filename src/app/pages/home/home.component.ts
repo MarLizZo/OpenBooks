@@ -28,7 +28,7 @@ export class HomeComponent {
 
   @ViewChild('loadMore') btnLoadMore!: ElementRef; // like a document.getElementById
 
-  constructor(private svc: BookapiService, private router: Router) {}
+  constructor(private svc: BookapiService, private router: Router) {} // injection of Service and Router
 
   ngOnInit() {
     this.getLocalData();

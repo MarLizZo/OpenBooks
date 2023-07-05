@@ -2,6 +2,7 @@
     <div class="d-flex searchContainer mt-3">
         <input type="text" [(ngModel)]="formData.query" name="searchQuery"
             class="form-control bg-dark mb-4 rounded-end-0 shadow-none" id="floatingInput" placeholder="The Expanse">
+        <!-- This input field is binded with the formData.query property inside the typescript file of the component -->
         <div ngbDropdown class="d-inline-block">
             <button type="button" class="btn btn-dark text-secondary rounded-start-0" id="dropdownSearch"
                 ngbDropdownToggle>

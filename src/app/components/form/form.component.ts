@@ -21,6 +21,7 @@ export class FormComponent {
   btnText: string = 'All lang';
 
   @Output() onSubmit = new EventEmitter();
+  // Think of this like a signal. The home component will receive this signal and then proceed to send the request
 
   formSubmit(): void {
     const outObj: IFormData = {
@@ -29,8 +30,11 @@ export class FormComponent {
       isEnglish: this.formData.isEnglish ? true : false,
       isAllLang: this.formData.isAllLang ? true : false,
     };
+    // We are creating a new object because of the two-way binding. If we pass directly the formData object, then every changes to the form will be reflected inside the home component too. We don't want this to happen.
     this.onSubmit.emit(outObj);
+    // emit is the method that actually send the signal to the linked component
     this.formData.query = '';
+    // resets the input field
   }
 
   setSearchFilter(type: number): void {
@@ -50,5 +54,6 @@ export class FormComponent {
       this.formData.isEnglish = false;
       this.formData.isItalian = true;
     }
+    // not that elegant.. switches the language parameter that we will use to show the user the desired books
   }
 }

@@ -8,12 +8,14 @@
             <div class="d-flex">
                 <img
                     [src]="book.volumeInfo!.imageLinks ? book.volumeInfo!.imageLinks.thumbnail : './assets/img-fallback.jpg'">
+                <!-- Not every book have an image, so we are setting a fallback img in case -->
                 <div class="main-info ms-3">
                     <h4 class="m-0 mb-2">{{ book.volumeInfo!.title }}</h4>
                     <p *ngIf="book.volumeInfo!.authors" class="m-0">By <span
                             *ngFor="let a of book.volumeInfo!.authors">• {{
                             a }} •</span></p>
                     <p *ngIf="!book.volumeInfo!.authors" class="m-0">• Unknown •</p>
+                    <!-- Some books have more than one authors, so we cycle the authors array to display them all. In case the authors information is not present, we are setting 'Unknown' -->
                     <p class="m-0 mt-3"><span
                             [textContent]="book.volumeInfo!.publisher ? book.volumeInfo!.publisher + ' • ' : 'Unknown Publisher' + ' • '"></span>
                         <span
@@ -25,11 +27,13 @@
                     <p class="m-0 mt-2"
                         [textContent]="book.volumeInfo!.language ? book.volumeInfo!.language == 'en' ? 'Language: English' : book.volumeInfo!.language == 'it' ? 'Language: Italiano' : book.volumeInfo!.language : 'Language: Unknown'">
                     </p>
+                    <!-- publisher, publishedDate, pageCount, language may be undefined so we are setting here too a fallback string -->
                 </div>
             </div>
             <div *ngIf="book.volumeInfo!.categories" class="mt-3">
                 <p class="m-0"><span class="d-block" *ngFor="let c of book.volumeInfo!.categories">•
                         {{ c }}</span></p>
+                <!-- This element is displayed if the categories property is present and not undefined. Then we cycle the array to display all the categories of the book. Example Fiction, Thriller, Fantasy etc. -->
             </div>
             <div class="mt-4">
                 <p class="descr-heading fs-4 fw-medium">Book Description</p>
@@ -48,5 +52,6 @@
         <app-error *ngIf="isError" class="d-flex justify-content-center w-100" [genericError]="true"
             [searchError]="false" (onDismiss)="dismiss()"></app-error>
         <button class="btn btn-outline-primary w-25 mt-5" (click)="getBookData()">Try Again</button>
+        <!-- Here we are calling the error component if errors occurs during the request. We are showing a button to retry. -->
     </div>
 </div>
