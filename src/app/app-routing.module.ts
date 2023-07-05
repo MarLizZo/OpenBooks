@@ -8,10 +8,11 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'book/:id',
+    path: 'book/:id', // id is the name of the parameter that we will pass from the home component. It's the Book's ID
     loadChildren: () =>
       import('./pages/book/book.module').then((m) => m.BookModule),
   },
+  // loadChildren is the method to load the lazy-loaded modules. This is created automatically by using the 'magic' command to create a module. Example: ng generate module pages/contacts --route contacts --module app.module
 ];
 
 @NgModule({
