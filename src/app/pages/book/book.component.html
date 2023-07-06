@@ -5,17 +5,17 @@
     <div *ngIf="!isLoading && !isWaiting && !isErrorCheck"
         class="d-flex flex-grow-1 justify-content-center align-items-center py-4">
         <div class="card bg-dark p-4 shadow-lg">
-            <div class="d-flex">
-                <img
-                    [src]="book.volumeInfo!.imageLinks ? book.volumeInfo!.imageLinks.thumbnail : './assets/img-fallback.jpg'">
+            <div class="d-flex flex-column flex-md-row">
+                <img [src]="book.volumeInfo!.imageLinks ? book.volumeInfo!.imageLinks.thumbnail : './assets/img-fallback.jpg'"
+                    class="mb-2 mb-md-0 mx-auto mx-md-0">
                 <!-- Not every book have an image, so we are setting a fallback img in case -->
                 <div class="main-info ms-3">
-                    <h4 class="m-0 mb-2">{{ book.volumeInfo!.title }}</h4>
+                    <h4 class="m-0 mb-4 mb-md-2 text-center text-md-start">{{ book.volumeInfo!.title }}</h4>
                     <p *ngIf="book.volumeInfo!.authors" class="m-0">By <span
-                            *ngFor="let a of book.volumeInfo!.authors">• {{
-                            a }} •</span></p>
-                    <p *ngIf="!book.volumeInfo!.authors" class="m-0">• Unknown •</p>
-                    <!-- Some books have more than one authors, so we cycle the authors array to display them all. In case the authors information is not present, we are setting 'Unknown' -->
+                            *ngFor="let a of book.volumeInfo!.authors">&nbsp;• {{
+                            a }}</span></p>
+                    <p *ngIf="!book.volumeInfo!.authors" class="m-0">By • Unknown •</p>
+                    <!-- Some books have more than one author, so we cycle the authors array to display them all. In case the authors information is not present, we are setting 'Unknown' -->
                     <p class="m-0 mt-3"><span
                             [textContent]="book.volumeInfo!.publisher ? book.volumeInfo!.publisher + ' • ' : 'Unknown Publisher' + ' • '"></span>
                         <span
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div *ngIf="book.volumeInfo!.previewLink" class="mt-4 text-center">
-                <a [href]="book.volumeInfo!.previewLink" target="_blank"><button class="btn btn-outline-primary w-25"
+                <a [href]="book.volumeInfo!.previewLink" target="_blank"><button class="btn btn-outline-primary c-width"
                         [textContent]="'Get a Preview'"></button></a>
             </div>
         </div>
